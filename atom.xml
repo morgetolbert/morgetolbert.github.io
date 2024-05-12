@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>PYGYME的技术博客</title>
+  <title>PYGYME的独立思考</title>
   
   
   <link href="https://pygyme.com/atom.xml" rel="self"/>
   
   <link href="https://pygyme.com/"/>
-  <updated>2024-05-11T14:15:43.288Z</updated>
+  <updated>2024-05-12T09:12:39.370Z</updated>
   <id>https://pygyme.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://pygyme.com/Go%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91/go-module-%E4%BD%BF%E7%94%A8github%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/"/>
     <id>https://pygyme.com/Go%E8%AF%AD%E8%A8%80%E5%BC%80%E5%8F%91/go-module-%E4%BD%BF%E7%94%A8github%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93/</id>
     <published>2024-03-29T06:20:00.000Z</published>
-    <updated>2024-05-11T14:15:43.288Z</updated>
+    <updated>2024-05-12T09:12:39.370Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Go-Module-使用Github私有仓库"><a href="#Go-Module-使用Github私有仓库" class="headerlink" title="Go Module 使用Github私有仓库"></a>Go Module 使用Github私有仓库</h1><h2 id="使用-Access-Token-进行访问"><a href="#使用-Access-Token-进行访问" class="headerlink" title="使用 Access Token 进行访问"></a>使用 Access Token 进行访问</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">PS</span> C:\Users\lukas&gt;<span class="hljs-built_in">Set-Variable</span> <span class="hljs-literal">-name</span> username <span class="hljs-literal">-value</span> lukas<br><span class="hljs-built_in">PS</span> C:\Users\lukas&gt;<span class="hljs-built_in">Set-Variable</span> <span class="hljs-literal">-name</span> access_token <span class="hljs-literal">-value</span> xxxxxxxxxxxx<br><span class="hljs-built_in">PS</span> C:\Users\lukas&gt; go env <span class="hljs-literal">-w</span> GOPRIVATE=github.com/<span class="hljs-variable">$</span>&#123;username&#125;<br><span class="hljs-built_in">PS</span> C:\Users\lukas&gt; git config -<span class="hljs-literal">-global</span> url.<span class="hljs-string">&quot;https://<span class="hljs-variable">$</span>&#123;username&#125;:<span class="hljs-variable">$</span>&#123;access_token&#125;@github.com&quot;</span>.insteadOf <span class="hljs-string">&quot;https://github.com&quot;</span><br><span class="hljs-built_in">PS</span> C:\Users\lukas&gt; <span class="hljs-built_in">cd</span> D:\tmp<br><span class="hljs-built_in">PS</span> D:\tmp&gt;<br><span class="hljs-built_in">PS</span> D:\tmp&gt; go get github.com/lukas/blueberry/examples<br>go: downloading github.com/lukas/blueberry/examples v0.<span class="hljs-number">0.0</span><span class="hljs-literal">-20240329033644</span><span class="hljs-literal">-5f967cf0e366</span><br>go: downloading github.com/lukas/blueberry v0.<span class="hljs-number">0.0</span><span class="hljs-literal">-20240329033644</span><span class="hljs-literal">-5f967cf0e366</span><br>go: added github.com/lukas/blueberry/examples v0.<span class="hljs-number">0.0</span><span class="hljs-literal">-20240329033644</span><span class="hljs-literal">-5f967cf0e366</span><br><span class="hljs-built_in">PS</span> D:\tmp&gt;<br></code></pre></td></tr></table></figure>]]></content>
     
