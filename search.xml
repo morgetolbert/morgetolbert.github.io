@@ -109,7 +109,7 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE系列03：PVE安装最小化 Rocky Linux 9</title>
+    <title>PVE系列03：PVE安装最小化 Rocky Linux</title>
     <url>/posts/3b09c10b.html</url>
     <content><![CDATA[<h2 id="RHEL-Rocky-Almalinux-Fedora-网络配置"><a href="#RHEL-Rocky-Almalinux-Fedora-网络配置" class="headerlink" title="RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置"></a>RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置</h2><h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>基于<code>nmcli</code>命令，一条命令即可完成静态IP配置，重启系统后生效。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmcli connection modify \</span><br><span class="line">    <span class="string">&quot;<span class="subst">$(nmcli -t -f NAME c show --active | awk &#x27;! /^lo/ &#123; printf <span class="string">&quot;%s\n&quot;</span>, $0 &#125;&#x27;)</span>&quot;</span> \</span><br><span class="line">    connection.autoconnect <span class="built_in">yes</span> \</span><br><span class="line">    ipv4.method manual \</span><br><span class="line">    ipv4.addresses <span class="string">&quot;172.17.1.116/16&quot;</span> \</span><br><span class="line">    ipv4.gateway 172.17.0.2 \</span><br><span class="line">    ipv4.dns 8.8.8.8,8.8.4.4 \</span><br><span class="line">    ipv6.method disabled</span><br></pre></td></tr></table></figure>
@@ -127,7 +127,7 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE系列04：PVE安装最小化Ubuntu Server 22.04</title>
+    <title>PVE系列04：PVE安装最小化Ubuntu Server</title>
     <url>/posts/d05a23e4.html</url>
     <content><![CDATA[<h2 id="Ubuntu-网络配置"><a href="#Ubuntu-网络配置" class="headerlink" title="Ubuntu 网络配置"></a>Ubuntu 网络配置</h2><p>Ubuntu使用netplan来管理网络，默认使用dhcp，设置静态IP地址需要手写配置文件。</p>
 <p>参考官方文档的配置： <a href="https://ubuntu.com/server/docs/network-configuration">点击跳转</a></p>
@@ -153,7 +153,7 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE系列04：Fedora X11开发环境</title>
+    <title>PVE系列05：Fedora X11开发环境</title>
     <url>/posts/b2111cfc.html</url>
     <content><![CDATA[<h2 id="Windows系统"><a href="#Windows系统" class="headerlink" title="Windows系统"></a>Windows系统</h2><p>安装 vcxsrv, xshell, xftp。</p>
 <p>clion在Windows上可以远程linux开发，但是调试多个tcp程序不如命令行手动gdb来的实在。<br>调试redis源码也要用gdb，反正无论怎样都是要用gdb调试的，逃不开躲不过，还是尽早适应的好。</p>
@@ -216,7 +216,7 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE下Linux虚拟机回收磁盘空间</title>
+    <title>PVE系列06：PVE下Linux虚拟机回收磁盘空间</title>
     <url>/posts/cc4b022f.html</url>
     <content><![CDATA[<h3 id="第一步：设置磁盘选项"><a href="#第一步：设置磁盘选项" class="headerlink" title="第一步：设置磁盘选项"></a>第一步：设置磁盘选项</h3><h3 id="第二步：虚拟机内执行回收命令"><a href="#第二步：虚拟机内执行回收命令" class="headerlink" title="第二步：虚拟机内执行回收命令"></a>第二步：虚拟机内执行回收命令</h3>]]></content>
       <categories>
@@ -228,7 +228,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu桌面安装与配置</title>
+    <title>VMware系列01：Ubuntu桌面安装与配置</title>
     <url>/posts/2da80ffc.html</url>
     <content><![CDATA[<h2 id="VMware-Workstation-Pro-桌面虚拟化"><a href="#VMware-Workstation-Pro-桌面虚拟化" class="headerlink" title="VMware Workstation Pro 桌面虚拟化"></a>VMware Workstation Pro 桌面虚拟化</h2><p>使用VMware Workstation Pro 等半虚拟化软件创建的虚拟机。</p>
 <ol>
@@ -276,7 +276,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu桌面挂载Windows共享文件夹</title>
+    <title>VMware系列02：Ubuntu桌面挂载Windows共享文件夹</title>
     <url>/posts/b4f8c94e.html</url>
     <content><![CDATA[<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install cifs-utils</span><br></pre></td></tr></table></figure>
 
@@ -310,7 +310,7 @@
       </tags>
   </entry>
   <entry>
-    <title>VMware虚拟机回收磁盘空间</title>
+    <title>VMware系列03：VMware虚拟机回收磁盘空间</title>
     <url>/posts/6c0c2176.html</url>
     <content><![CDATA[<h2 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h2><p>对于 Windows 虚拟机，可以选中虚拟机右键，管理选项，选择清理磁盘。这种方式回收空间速度很快。</p>
 <h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><h3 id="第一步：虚拟机安装vmtools"><a href="#第一步：虚拟机安装vmtools" class="headerlink" title="第一步：虚拟机安装vmtools"></a>第一步：虚拟机安装vmtools</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install open-vm-tools</span><br><span class="line"></span><br><span class="line">dnf install open-vm-tools</span><br></pre></td></tr></table></figure>
@@ -405,47 +405,6 @@
       </tags>
   </entry>
   <entry>
-    <title>编译.NET Runtime源码</title>
-    <url>/posts/8c23d09a.html</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
-<li>项目编译官方文档：<a href="https://github.com/dotnet/runtime/blob/main/docs/workflow/README.md">https://github.com/dotnet/runtime/blob/main/docs/workflow/README.md</a></li>
-</ul>
-<h2 id="第一步：设置代理环境变量"><a href="#第一步：设置代理环境变量" class="headerlink" title="第一步：设置代理环境变量"></a>第一步：设置代理环境变量</h2><p><code>.NET Runtime</code>项目的编译脚本需要在线下载很多东西， 鉴于国内的网络环境，如果你没有一个快速的代理， 基本上编译脚本是没希望执行成功的。</p>
-<p>因此，如果想要快速顺利的编译项目，必须要设置代理。</p>
-<h3 id="方式1：-从控制面板里面配置环境变量（一直有效）"><a href="#方式1：-从控制面板里面配置环境变量（一直有效）" class="headerlink" title="方式1： 从控制面板里面配置环境变量（一直有效）"></a>方式1： 从控制面板里面配置环境变量（一直有效）</h3><p>跟平常修改windows path环境变量一样的方法， 在控制面板里面，新建 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code> 这两个环境变量。</p>
-<h3 id="方式2：-从Powershell命令行手动设置（临时有效）"><a href="#方式2：-从Powershell命令行手动设置（临时有效）" class="headerlink" title="方式2： 从Powershell命令行手动设置（临时有效）"></a>方式2： 从Powershell命令行手动设置（临时有效）</h3><p>Powershell中使用下列命令设置环境变量：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$env:HTTP_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"><span class="variable">$env:HTTPS_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="检查环境变量是否生效"><a href="#检查环境变量是否生效" class="headerlink" title="检查环境变量是否生效"></a>检查环境变量是否生效</h3><p>上面两种方式，选其一设置即可。</p>
-<p>打开<code>Powershell</code>，输入 <code>$env:HTTPS_PROXY</code>，<code>$env:HTTPS_PROXY</code> 两条命令，检查输出，看环境变量是否生效。</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">PS</span> D:\&gt; <span class="variable">$env:HTTPS_PROXY</span></span><br><span class="line">http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1080</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> D:\&gt; <span class="variable">$env:HTTP_PROXY</span></span><br><span class="line">http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1080</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> D:\&gt; </span><br></pre></td></tr></table></figure>
-
-<h2 id="第二步：-下载源码"><a href="#第二步：-下载源码" class="headerlink" title="第二步： 下载源码"></a>第二步： 下载源码</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> D:</span><br><span class="line">git clone <span class="literal">--recursive</span> https://github.com/dotnet/runtime.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> D:\runtime</span><br><span class="line">git submodule update <span class="literal">--init</span> <span class="literal">--recursive</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于特定版本创建新分支，这样就可以把修改保存在新分支上。</span></span><br><span class="line">git checkout v8.<span class="number">0.5</span></span><br><span class="line">git branch review<span class="literal">-v8</span>.<span class="number">0.5</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="第三步：-安装需要的Visual-Studio组件"><a href="#第三步：-安装需要的Visual-Studio组件" class="headerlink" title="第三步： 安装需要的Visual Studio组件"></a>第三步： 安装需要的<code>Visual Studio</code>组件</h2><p>为了编译项目需要安装很多Visual Studio组件，项目开发人员很贴心，仓库里面已经提供了VS2022安装配置文件<code>.vsconfig</code>，导入配置文件进行安装就好了。</p>
-<p>即使你已经安装了 <code>Visual Studio 2022</code> ，也要使用 <code>.vsconfig</code> 配置文件重新导入一下，不然在后面的步骤，可能会因为缺失组件而报错。</p>
-<p>导入方法： 打开<code>Visual Studio Installer</code>， 更多 -&gt; 载入配置 -&gt; 选择 <code>.vsconfig</code> -&gt; 查看详细信息。</p>
-<ul>
-<li>关于<code>Visual Studio</code>导入或导出安装配置的说明，MSDN文档链接如下：</li>
-<li><a href="https://learn.microsoft.com/zh-cn/visualstudio/install/import-export-installation-configurations">https://learn.microsoft.com/zh-cn/visualstudio/install/import-export-installation-configurations</a></li>
-</ul>
-<h2 id="第三步：正式编译步骤"><a href="#第三步：正式编译步骤" class="headerlink" title="第三步：正式编译步骤"></a>第三步：正式编译步骤</h2><h3 id="1-编译项目"><a href="#1-编译项目" class="headerlink" title="1. 编译项目"></a>1. 编译项目</h3><p>在.NET Runtime项目文件夹，执行下列命令，进行编译。</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置代理</span></span><br><span class="line"><span class="variable">$env:HTTP_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"><span class="variable">$env:HTTPS_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译项目</span></span><br><span class="line">.\build.cmd clr+libs <span class="literal">-rc</span> Release</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>注意： 一定要设置代理, 这个很重要；</li>
-</ul>
-<h3 id="2-在vs中打开项目"><a href="#2-在vs中打开项目" class="headerlink" title="2. 在vs中打开项目"></a>2. 在vs中打开项目</h3><p>如果你要查看的项目，项目文件夹内有sln文件，你可以直接使用<code>visual studio</code>打开。</p>
-<p>如果项目文件夹内没有sln文件，从命令行执行下列命令，该命令会自动调用<code>visual studio</code>并打开项目。</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># System.Private.CoreLib 是项目文件夹的名称， 换成你要查看的项目。</span></span><br><span class="line"></span><br><span class="line">.\build.cmd <span class="literal">-vs</span> System.Private.CoreLib</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>.NET开发</category>
-      </categories>
-      <tags>
-        <tag>.NET Runtime</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编译ASP.NET Core源码</title>
     <url>/posts/b063dee6.html</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
@@ -506,6 +465,47 @@
       </categories>
       <tags>
         <tag>ASP.NET Core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>编译.NET Runtime源码</title>
+    <url>/posts/8c23d09a.html</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
+<li>项目编译官方文档：<a href="https://github.com/dotnet/runtime/blob/main/docs/workflow/README.md">https://github.com/dotnet/runtime/blob/main/docs/workflow/README.md</a></li>
+</ul>
+<h2 id="第一步：设置代理环境变量"><a href="#第一步：设置代理环境变量" class="headerlink" title="第一步：设置代理环境变量"></a>第一步：设置代理环境变量</h2><p><code>.NET Runtime</code>项目的编译脚本需要在线下载很多东西， 鉴于国内的网络环境，如果你没有一个快速的代理， 基本上编译脚本是没希望执行成功的。</p>
+<p>因此，如果想要快速顺利的编译项目，必须要设置代理。</p>
+<h3 id="方式1：-从控制面板里面配置环境变量（一直有效）"><a href="#方式1：-从控制面板里面配置环境变量（一直有效）" class="headerlink" title="方式1： 从控制面板里面配置环境变量（一直有效）"></a>方式1： 从控制面板里面配置环境变量（一直有效）</h3><p>跟平常修改windows path环境变量一样的方法， 在控制面板里面，新建 <code>HTTP_PROXY</code>、<code>HTTPS_PROXY</code> 这两个环境变量。</p>
+<h3 id="方式2：-从Powershell命令行手动设置（临时有效）"><a href="#方式2：-从Powershell命令行手动设置（临时有效）" class="headerlink" title="方式2： 从Powershell命令行手动设置（临时有效）"></a>方式2： 从Powershell命令行手动设置（临时有效）</h3><p>Powershell中使用下列命令设置环境变量：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$env:HTTP_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"><span class="variable">$env:HTTPS_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="检查环境变量是否生效"><a href="#检查环境变量是否生效" class="headerlink" title="检查环境变量是否生效"></a>检查环境变量是否生效</h3><p>上面两种方式，选其一设置即可。</p>
+<p>打开<code>Powershell</code>，输入 <code>$env:HTTPS_PROXY</code>，<code>$env:HTTPS_PROXY</code> 两条命令，检查输出，看环境变量是否生效。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">PS</span> D:\&gt; <span class="variable">$env:HTTPS_PROXY</span></span><br><span class="line">http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1080</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> D:\&gt; <span class="variable">$env:HTTP_PROXY</span></span><br><span class="line">http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1080</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">PS</span> D:\&gt; </span><br></pre></td></tr></table></figure>
+
+<h2 id="第二步：-下载源码"><a href="#第二步：-下载源码" class="headerlink" title="第二步： 下载源码"></a>第二步： 下载源码</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> D:</span><br><span class="line">git clone <span class="literal">--recursive</span> https://github.com/dotnet/runtime.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> D:\runtime</span><br><span class="line">git submodule update <span class="literal">--init</span> <span class="literal">--recursive</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于特定版本创建新分支，这样就可以把修改保存在新分支上。</span></span><br><span class="line">git checkout v8.<span class="number">0.5</span></span><br><span class="line">git branch review<span class="literal">-v8</span>.<span class="number">0.5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="第三步：-安装需要的Visual-Studio组件"><a href="#第三步：-安装需要的Visual-Studio组件" class="headerlink" title="第三步： 安装需要的Visual Studio组件"></a>第三步： 安装需要的<code>Visual Studio</code>组件</h2><p>为了编译项目需要安装很多Visual Studio组件，项目开发人员很贴心，仓库里面已经提供了VS2022安装配置文件<code>.vsconfig</code>，导入配置文件进行安装就好了。</p>
+<p>即使你已经安装了 <code>Visual Studio 2022</code> ，也要使用 <code>.vsconfig</code> 配置文件重新导入一下，不然在后面的步骤，可能会因为缺失组件而报错。</p>
+<p>导入方法： 打开<code>Visual Studio Installer</code>， 更多 -&gt; 载入配置 -&gt; 选择 <code>.vsconfig</code> -&gt; 查看详细信息。</p>
+<ul>
+<li>关于<code>Visual Studio</code>导入或导出安装配置的说明，MSDN文档链接如下：</li>
+<li><a href="https://learn.microsoft.com/zh-cn/visualstudio/install/import-export-installation-configurations">https://learn.microsoft.com/zh-cn/visualstudio/install/import-export-installation-configurations</a></li>
+</ul>
+<h2 id="第三步：正式编译步骤"><a href="#第三步：正式编译步骤" class="headerlink" title="第三步：正式编译步骤"></a>第三步：正式编译步骤</h2><h3 id="1-编译项目"><a href="#1-编译项目" class="headerlink" title="1. 编译项目"></a>1. 编译项目</h3><p>在.NET Runtime项目文件夹，执行下列命令，进行编译。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置代理</span></span><br><span class="line"><span class="variable">$env:HTTP_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"><span class="variable">$env:HTTPS_PROXY</span>=<span class="string">&quot;http://127.0.0.1:1080&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译项目</span></span><br><span class="line">.\build.cmd clr+libs <span class="literal">-rc</span> Release</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意： 一定要设置代理, 这个很重要；</li>
+</ul>
+<h3 id="2-在vs中打开项目"><a href="#2-在vs中打开项目" class="headerlink" title="2. 在vs中打开项目"></a>2. 在vs中打开项目</h3><p>如果你要查看的项目，项目文件夹内有sln文件，你可以直接使用<code>visual studio</code>打开。</p>
+<p>如果项目文件夹内没有sln文件，从命令行执行下列命令，该命令会自动调用<code>visual studio</code>并打开项目。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># System.Private.CoreLib 是项目文件夹的名称， 换成你要查看的项目。</span></span><br><span class="line"></span><br><span class="line">.\build.cmd <span class="literal">-vs</span> System.Private.CoreLib</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>.NET开发</category>
+      </categories>
+      <tags>
+        <tag>.NET Runtime</tag>
       </tags>
   </entry>
 </search>
