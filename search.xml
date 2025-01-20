@@ -109,24 +109,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE系列03：PVE安装最小化 Rocky Linux</title>
-    <url>/posts/3b09c10b.html</url>
-    <content><![CDATA[<h2 id="RHEL-Rocky-Almalinux-Fedora-网络配置"><a href="#RHEL-Rocky-Almalinux-Fedora-网络配置" class="headerlink" title="RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置"></a>RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置</h2><h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>基于<code>nmcli</code>命令，一条命令即可完成静态IP配置，重启系统后生效。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmcli connection modify \</span><br><span class="line">    <span class="string">&quot;<span class="subst">$(nmcli -t -f NAME c show --active | awk &#x27;! /^lo/ &#123; printf <span class="string">&quot;%s\n&quot;</span>, $0 &#125;&#x27;)</span>&quot;</span> \</span><br><span class="line">    connection.autoconnect <span class="built_in">yes</span> \</span><br><span class="line">    ipv4.method manual \</span><br><span class="line">    ipv4.addresses <span class="string">&quot;172.17.1.116/16&quot;</span> \</span><br><span class="line">    ipv4.gateway 172.17.0.2 \</span><br><span class="line">    ipv4.dns 8.8.8.8,8.8.4.4 \</span><br><span class="line">    ipv6.method disabled</span><br></pre></td></tr></table></figure>
-
-
-<span id="more"></span>
-
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>ProxmoxVE</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PVE系列04：PVE安装最小化Ubuntu Server</title>
     <url>/posts/d05a23e4.html</url>
     <content><![CDATA[<h2 id="Ubuntu-网络配置"><a href="#Ubuntu-网络配置" class="headerlink" title="Ubuntu 网络配置"></a>Ubuntu 网络配置</h2><p>Ubuntu使用netplan来管理网络，默认使用dhcp，设置静态IP地址需要手写配置文件。</p>
@@ -142,6 +124,24 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens18:</span></span><br><span class="line">      <span class="attr">link-local:</span> [ <span class="string">ipv4</span> ]  </span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="number">172.17</span><span class="number">.1</span><span class="number">.121</span><span class="string">/16</span></span><br><span class="line">      <span class="attr">gateway4:</span> <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">          <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>]</span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
 
 
+
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>ProxmoxVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PVE系列03：PVE安装最小化 Rocky Linux</title>
+    <url>/posts/3b09c10b.html</url>
+    <content><![CDATA[<h2 id="RHEL-Rocky-Almalinux-Fedora-网络配置"><a href="#RHEL-Rocky-Almalinux-Fedora-网络配置" class="headerlink" title="RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置"></a>RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置</h2><h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>基于<code>nmcli</code>命令，一条命令即可完成静态IP配置，重启系统后生效。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmcli connection modify \</span><br><span class="line">    <span class="string">&quot;<span class="subst">$(nmcli -t -f NAME c show --active | awk &#x27;! /^lo/ &#123; printf <span class="string">&quot;%s\n&quot;</span>, $0 &#125;&#x27;)</span>&quot;</span> \</span><br><span class="line">    connection.autoconnect <span class="built_in">yes</span> \</span><br><span class="line">    ipv4.method manual \</span><br><span class="line">    ipv4.addresses <span class="string">&quot;172.17.1.116/16&quot;</span> \</span><br><span class="line">    ipv4.gateway 172.17.0.2 \</span><br><span class="line">    ipv4.dns 8.8.8.8,8.8.4.4 \</span><br><span class="line">    ipv6.method disabled</span><br></pre></td></tr></table></figure>
+
+
+<span id="more"></span>
 
 ]]></content>
       <categories>
@@ -267,68 +267,6 @@
 <li><code>虚拟化CPU性能计数器</code>： 可以提升虚拟机CPU性能</li>
 </ul>
 <h2 id="Gnome桌面美化"><a href="#Gnome桌面美化" class="headerlink" title="Gnome桌面美化"></a>Gnome桌面美化</h2>]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>VMware</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware系列02：Ubuntu桌面挂载Windows共享文件夹</title>
-    <url>/posts/b4f8c94e.html</url>
-    <content><![CDATA[<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install cifs-utils</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h2><p>不要设置每个人都可以读写文件夹，选择一个用户，只允许这个用户可以读写共享文件夹。</p>
-<span id="more"></span>
-
-
-<h2 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h2><h3 id="etc-fstab-文件配置"><a href="#etc-fstab-文件配置" class="headerlink" title="&#x2F;etc&#x2F;fstab 文件配置"></a>&#x2F;etc&#x2F;fstab 文件配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>uid&#x3D;lukas  这里是指定ubuntu用户，不指定的话，你会没有访问权限的。</li>
-<li>username&#x3D;lukas,password&#x3D;abc123   这里是windows用户名和密码， (设置windows共享的时候你指定的用户)</li>
-</ul>
-<h3 id="更安全的配置-etc-fstab"><a href="#更安全的配置-etc-fstab" class="headerlink" title="更安全的配置 &#x2F;etc&#x2F;fstab"></a>更安全的配置 &#x2F;etc&#x2F;fstab</h3><p>&#x2F;etc&#x2F;fstab 每个人都可以读取 - 其中的 Windows 密码也是如此。解决这个问题的方法是使用凭据文件。这是一个仅包含用户名和密码的文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lukas@ubuntu24:~$ <span class="built_in">cat</span> /home/lukas/.smbcredentials</span><br><span class="line">username=lukas</span><br><span class="line"></span><br><span class="line">password=abc123</span><br><span class="line">lukas@ubuntu24:~$ <span class="built_in">chmod</span> 600 ~/.smbcredentials</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://wiki.ubuntu.com/MountWindowsSharesPermanently">https://wiki.ubuntu.com/MountWindowsSharesPermanently</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>VMware</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware系列03：VMware虚拟机回收磁盘空间</title>
-    <url>/posts/6c0c2176.html</url>
-    <content><![CDATA[<h2 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h2><p>对于 Windows 虚拟机，可以选中虚拟机右键，管理选项，选择清理磁盘。这种方式回收空间速度很快。</p>
-<h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><h3 id="第一步：虚拟机安装vmtools"><a href="#第一步：虚拟机安装vmtools" class="headerlink" title="第一步：虚拟机安装vmtools"></a>第一步：虚拟机安装vmtools</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install open-vm-tools</span><br><span class="line"></span><br><span class="line">dnf install open-vm-tools</span><br></pre></td></tr></table></figure>
-
-<h3 id="第二步：查看可压缩磁盘的挂载位置"><a href="#第二步：查看可压缩磁盘的挂载位置" class="headerlink" title="第二步：查看可压缩磁盘的挂载位置"></a>第二步：查看可压缩磁盘的挂载位置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk list</span><br><span class="line">/</span><br><span class="line">/storage</span><br><span class="line">root@pve:~#</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三步：压缩磁盘"><a href="#第三步：压缩磁盘" class="headerlink" title="第三步：压缩磁盘"></a>第三步：压缩磁盘</h3><ol>
-<li>压缩 &#x2F;</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk shrink /</span><br></pre></td></tr></table></figure>
-
-
-<p>这种方式很慢很慢，而且很消耗SSD的寿命。</p>
-<p>VMWare Workstation Pro 不支持trim，没有办法快速回收， 这是非常严重的缺陷，这会造成很大的空间浪费。</p>
-<p>PVE8虚拟机，从 <code>df -lh</code> 命令看，占用400G； 但是从Windows下看，实际占用了807G， 这意味着400G的空间浪费。<br>在使用 <code>disk shrink</code> 命令后， shrink命令超级慢，而且需要磁盘有巨大的未使用空间，才能成功shrink；<br>shrink后，从 807G 变成 704G， 也是没什么大用， 等了一个多小时，就这？？？？？  </p>
-<p>还不如，不做 shrink ，真真的浪费时间！</p>
-<p>PVE下qemu创建的Linux虚拟机，可以支持trim，设置ssd仿真和丢弃，可以使用fstrim命令回收磁盘空间。</p>
-]]></content>
       <categories>
         <category>开发环境</category>
       </categories>
@@ -465,6 +403,68 @@
       </categories>
       <tags>
         <tag>ASP.NET Core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware系列03：VMware虚拟机回收磁盘空间</title>
+    <url>/posts/6c0c2176.html</url>
+    <content><![CDATA[<h2 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h2><p>对于 Windows 虚拟机，可以选中虚拟机右键，管理选项，选择清理磁盘。这种方式回收空间速度很快。</p>
+<h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><h3 id="第一步：虚拟机安装vmtools"><a href="#第一步：虚拟机安装vmtools" class="headerlink" title="第一步：虚拟机安装vmtools"></a>第一步：虚拟机安装vmtools</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install open-vm-tools</span><br><span class="line"></span><br><span class="line">dnf install open-vm-tools</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二步：查看可压缩磁盘的挂载位置"><a href="#第二步：查看可压缩磁盘的挂载位置" class="headerlink" title="第二步：查看可压缩磁盘的挂载位置"></a>第二步：查看可压缩磁盘的挂载位置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk list</span><br><span class="line">/</span><br><span class="line">/storage</span><br><span class="line">root@pve:~#</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三步：压缩磁盘"><a href="#第三步：压缩磁盘" class="headerlink" title="第三步：压缩磁盘"></a>第三步：压缩磁盘</h3><ol>
+<li>压缩 &#x2F;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk shrink /</span><br></pre></td></tr></table></figure>
+
+
+<p>这种方式很慢很慢，而且很消耗SSD的寿命。</p>
+<p>VMWare Workstation Pro 不支持trim，没有办法快速回收， 这是非常严重的缺陷，这会造成很大的空间浪费。</p>
+<p>PVE8虚拟机，从 <code>df -lh</code> 命令看，占用400G； 但是从Windows下看，实际占用了807G， 这意味着400G的空间浪费。<br>在使用 <code>disk shrink</code> 命令后， shrink命令超级慢，而且需要磁盘有巨大的未使用空间，才能成功shrink；<br>shrink后，从 807G 变成 704G， 也是没什么大用， 等了一个多小时，就这？？？？？  </p>
+<p>还不如，不做 shrink ，真真的浪费时间！</p>
+<p>PVE下qemu创建的Linux虚拟机，可以支持trim，设置ssd仿真和丢弃，可以使用fstrim命令回收磁盘空间。</p>
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>VMware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware系列02：Ubuntu桌面挂载Windows共享文件夹</title>
+    <url>/posts/b4f8c94e.html</url>
+    <content><![CDATA[<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install cifs-utils</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h2><p>不要设置每个人都可以读写文件夹，选择一个用户，只允许这个用户可以读写共享文件夹。</p>
+<span id="more"></span>
+
+
+<h2 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h2><h3 id="etc-fstab-文件配置"><a href="#etc-fstab-文件配置" class="headerlink" title="&#x2F;etc&#x2F;fstab 文件配置"></a>&#x2F;etc&#x2F;fstab 文件配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>uid&#x3D;lukas  这里是指定ubuntu用户，不指定的话，你会没有访问权限的。</li>
+<li>username&#x3D;lukas,password&#x3D;abc123   这里是windows用户名和密码， (设置windows共享的时候你指定的用户)</li>
+</ul>
+<h3 id="更安全的配置-etc-fstab"><a href="#更安全的配置-etc-fstab" class="headerlink" title="更安全的配置 &#x2F;etc&#x2F;fstab"></a>更安全的配置 &#x2F;etc&#x2F;fstab</h3><p>&#x2F;etc&#x2F;fstab 每个人都可以读取 - 其中的 Windows 密码也是如此。解决这个问题的方法是使用凭据文件。这是一个仅包含用户名和密码的文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lukas@ubuntu24:~$ <span class="built_in">cat</span> /home/lukas/.smbcredentials</span><br><span class="line">username=lukas</span><br><span class="line"></span><br><span class="line">password=abc123</span><br><span class="line">lukas@ubuntu24:~$ <span class="built_in">chmod</span> 600 ~/.smbcredentials</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://wiki.ubuntu.com/MountWindowsSharesPermanently">https://wiki.ubuntu.com/MountWindowsSharesPermanently</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
