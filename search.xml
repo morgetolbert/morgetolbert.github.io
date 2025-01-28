@@ -30,6 +30,113 @@
       </tags>
   </entry>
   <entry>
+    <title>PVE系列03：PVE安装最小化 Rocky Linux</title>
+    <url>/posts/3b09c10b.html</url>
+    <content><![CDATA[<h2 id="RHEL-Rocky-Almalinux-Fedora-网络配置"><a href="#RHEL-Rocky-Almalinux-Fedora-网络配置" class="headerlink" title="RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置"></a>RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置</h2><h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>基于<code>nmcli</code>命令，一条命令即可完成静态IP配置，重启系统后生效。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmcli connection modify \</span><br><span class="line">    <span class="string">&quot;<span class="subst">$(nmcli -t -f NAME c show --active | awk &#x27;! /^lo/ &#123; printf <span class="string">&quot;%s\n&quot;</span>, $0 &#125;&#x27;)</span>&quot;</span> \</span><br><span class="line">    connection.autoconnect <span class="built_in">yes</span> \</span><br><span class="line">    ipv4.method manual \</span><br><span class="line">    ipv4.addresses <span class="string">&quot;172.17.1.116/16&quot;</span> \</span><br><span class="line">    ipv4.gateway 172.17.0.2 \</span><br><span class="line">    ipv4.dns 8.8.8.8,8.8.4.4 \</span><br><span class="line">    ipv6.method disabled</span><br></pre></td></tr></table></figure>
+
+
+<span id="more"></span>
+
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>ProxmoxVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PVE系列04：PVE安装最小化Ubuntu Server</title>
+    <url>/posts/d05a23e4.html</url>
+    <content><![CDATA[<h2 id="Ubuntu-网络配置"><a href="#Ubuntu-网络配置" class="headerlink" title="Ubuntu 网络配置"></a>Ubuntu 网络配置</h2><p>Ubuntu使用netplan来管理网络，默认使用dhcp，设置静态IP地址需要手写配置文件。</p>
+<p>参考官方文档的配置： <a href="https://ubuntu.com/server/docs/network-configuration">点击跳转</a></p>
+<span id="more"></span>
+
+
+<h3 id="设置DHCP"><a href="#设置DHCP" class="headerlink" title="设置DHCP"></a>设置DHCP</h3><p>Ubuntu 的 systemd-networkd 默认使用 &#x2F;etc&#x2F;machine-id 来识别机器，当虚拟机克隆的时候，他们都有一样的 &#x2F;etc&#x2F;machine-id 和 DHCP server，因此返回的都是同一个 ip 了。</p>
+<p>手写配置文件，完整配置文件<code>00-installer-config.yaml</code>，内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens33:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 加上这一行，可以避免克隆的虚拟机获取到相同的IP地址</span></span><br><span class="line">      <span class="attr">dhcp-identifier:</span> <span class="string">mac</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>手写配置文件，完整配置文件<code>00-installer-config.yaml</code>，内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens18:</span></span><br><span class="line">      <span class="attr">link-local:</span> [ <span class="string">ipv4</span> ]  </span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="number">172.17</span><span class="number">.1</span><span class="number">.121</span><span class="string">/16</span></span><br><span class="line">      <span class="attr">gateway4:</span> <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">          <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>]</span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>ProxmoxVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PVE系列05：Fedora X11开发环境</title>
+    <url>/posts/b2111cfc.html</url>
+    <content><![CDATA[<h2 id="Windows系统"><a href="#Windows系统" class="headerlink" title="Windows系统"></a>Windows系统</h2><p>安装 vcxsrv, xshell, xftp。</p>
+<p>clion在Windows上可以远程linux开发，但是调试多个tcp程序不如命令行手动gdb来的实在。<br>调试redis源码也要用gdb，反正无论怎样都是要用gdb调试的，逃不开躲不过，还是尽早适应的好。</p>
+<p>不在xshell中用vim写C++，而是通过X11使用vscode写C++。不使用vscode调试C++，而是在命令行手动gdb进行调试。</p>
+<span id="more"></span>
+
+<p>vim的配置太恶心了，要什么功能都要用插件去实现，选插件然后配置太麻烦，关键的是没法保证实现想要的效果，浪费生命浪费时间。</p>
+<p>抛弃vim，拥抱vscode，从我做起！</p>
+<p>在windows上跑虚拟机才是正解，linux开发环境使用X11更加方便，只要CPU够强、内存够大，鱼与熊掌可以兼得。</p>
+<h2 id="Fedora34系统环境从零开始"><a href="#Fedora34系统环境从零开始" class="headerlink" title="Fedora34系统环境从零开始"></a>Fedora34系统环境从零开始</h2><h3 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h3><h4 id="1-使用-Fedora-Workstation-Live-x86-64-34-1-2-iso-安装系统"><a href="#1-使用-Fedora-Workstation-Live-x86-64-34-1-2-iso-安装系统" class="headerlink" title="1. 使用 Fedora-Workstation-Live-x86_64-34-1.2.iso 安装系统"></a>1. 使用 <code>Fedora-Workstation-Live-x86_64-34-1.2.iso</code> 安装系统</h4><p>开发环境使用 Workstation版， 不用Server版。配置默认为字符界面，桌面在需要时再进行切换。</p>
+<p>自定义LVM磁盘分区, 设置登录账号。</p>
+<h4 id="2-更新系统"><a href="#2-更新系统" class="headerlink" title="2. 更新系统"></a>2. 更新系统</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ dnf update</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-调整运行级别"><a href="#3-调整运行级别" class="headerlink" title="3. 调整运行级别"></a>3. 调整运行级别</h4><p>配置默认为字符界面，这样虚拟机需要的运行资源占用少。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ systemctl set-default runlevel3.target</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-C-编译工具"><a href="#4-C-编译工具" class="headerlink" title="4. C++编译工具"></a>4. C++编译工具</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dnf install -y boost boost-devel zlib-devel curl-devel \</span><br><span class="line">protobuf protobuf-devel cmake gcc gcc-c++ gdb make \</span><br><span class="line">tmux git vim openssh-server</span><br><span class="line"></span><br><span class="line">dnf install -y clang clang-devel clang-libs llvm llvm-doc \</span><br><span class="line">llvm-devel clang-tools-extra clang-analyzer</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-VSCode"><a href="#5-VSCode" class="headerlink" title="5. VSCode"></a>5. VSCode</h4><p>5.1 按文档安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://code.visualstudio.com/docs/setup/linux</span><br></pre></td></tr></table></figure>
+
+<p>5.2 launch.json 示例</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// 使用 IntelliSense 了解相关属性。 </span></span><br><span class="line">    <span class="comment">// 悬停以查看现有属性的描述。</span></span><br><span class="line">    <span class="comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;asio_chat_server&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/build/bin/asio_chat_server&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;4000&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;fileDirname&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;为 gdb 启用整齐打印&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build-all&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>5.3 tasks.json 示例</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;label&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build-all&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;shell&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/bin/bash vscode.sh&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;group&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;isDefault&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>菜单 终端 -&gt; 运行生成任务(Ctrl+Shift+B), 会运行 tasks.json 中 <code>&quot;isDefault&quot;: true</code> 的task。</p>
+<h2 id="X11环境下的输入法"><a href="#X11环境下的输入法" class="headerlink" title="X11环境下的输入法"></a>X11环境下的输入法</h2><p>Fedora默认输入法是Ibus，当运行级别为3的时候，Ibus相关的服务不是开机启动的，需要你在xshell连上之后，手动启动ibus。</p>
+<h3 id="0-用到的包"><a href="#0-用到的包" class="headerlink" title="0. 用到的包"></a>0. 用到的包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[lukas@localhost yum.repos.d]$ rpm -qa | grep ^ibus</span><br><span class="line">ibus-libs-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-gtk2-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-gtk3-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-setup-1.5.24-5.fc34.noarch</span><br><span class="line">ibus-libzhuyin-1.10.0-2.fc34.x86_64</span><br><span class="line">ibus-m17n-1.4.9-1.fc34.x86_64</span><br><span class="line">ibus-libpinyin-1.12.0-3.fc34.x86_64</span><br><span class="line">ibus-anthy-python-1.5.12-7.fc34.noarch</span><br><span class="line">ibus-anthy-1.5.12-7.fc34.x86_64</span><br><span class="line">ibus-hangul-1.5.4-5.fc34.x86_64</span><br><span class="line">ibus-typing-booster-2.15.16-1.fc34.noarch</span><br><span class="line">[lukas@localhost yum.repos.d]$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dnf install ibus-libs ibus-gtk2 ibus-gtk3 ibus ibus-setup ibus-libzhuyin ibus-m17n ibus-libpinyin ibus-anthy-python ibus-anthy ibus-hangul ibus-typing-booster xsel</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-复制粘贴"><a href="#1-复制粘贴" class="headerlink" title="1. 复制粘贴"></a>1. 复制粘贴</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dnf -y install xsel</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-设置快捷键"><a href="#1-设置快捷键" class="headerlink" title="1. 设置快捷键"></a>1. 设置快捷键</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ ibus-setup</span><br></pre></td></tr></table></figure>
+
+<p>在程序窗口中设置为 Ctrl + 空格</p>
+<h3 id="2-设置Ibus相关环境变量"><a href="#2-设置Ibus相关环境变量" class="headerlink" title="2. 设置Ibus相关环境变量"></a>2. 设置Ibus相关环境变量</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export XIM=ibus</span><br><span class="line">export GTK_IM_MODULE=ibus</span><br><span class="line">export QT_IM_MODULE=ibus</span><br><span class="line">export XIM_PROGRAM=&quot;ibus-daemon&quot;</span><br><span class="line">export XMODIFIERS=&quot;@im=ibus&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在 ~&#x2F;.bashrc 里面添加</p>
+<h3 id="3-手动启动Ibus守护进程"><a href="#3-手动启动Ibus守护进程" class="headerlink" title="3. 手动启动Ibus守护进程"></a>3. 手动启动Ibus守护进程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ibus-daemon -x -d</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="4-剪切板复制粘贴"><a href="#4-剪切板复制粘贴" class="headerlink" title="4. 剪切板复制粘贴"></a>4. 剪切板复制粘贴</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ForwardX11 yes</span><br></pre></td></tr></table></figure>
+
+<p>修改ssh配置，在 <code>/etc/ssh/ssh_config</code> 文件配置上述选项。<br>vmware中启用剪切板复制粘贴。</p>
+<h2 id="X11环境下可能出现的问题"><a href="#X11环境下可能出现的问题" class="headerlink" title="X11环境下可能出现的问题"></a>X11环境下可能出现的问题</h2><ol>
+<li>文本输入时，按了字母数字外的键盘按键，出现一直输入222222222222222222222222无法停止的现象</li>
+</ol>
+<p>这是一个偶尔出现的状况，不太清楚原因，没找到彻底的解决办法。</p>
+<p>解决办法： 关闭程序，重新开启程序</p>
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>ProxmoxVE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PVE系列02：VMware安装PVE</title>
     <url>/posts/ea0a45e6.html</url>
     <content><![CDATA[<h2 id="VMware安装PVE虚拟机"><a href="#VMware安装PVE虚拟机" class="headerlink" title="VMware安装PVE虚拟机"></a>VMware安装PVE虚拟机</h2><p>1.下载ISO安装镜像，正常安装就好。不会的话就去网上搜教程。</p>
@@ -109,113 +216,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PVE系列04：PVE安装最小化Ubuntu Server</title>
-    <url>/posts/d05a23e4.html</url>
-    <content><![CDATA[<h2 id="Ubuntu-网络配置"><a href="#Ubuntu-网络配置" class="headerlink" title="Ubuntu 网络配置"></a>Ubuntu 网络配置</h2><p>Ubuntu使用netplan来管理网络，默认使用dhcp，设置静态IP地址需要手写配置文件。</p>
-<p>参考官方文档的配置： <a href="https://ubuntu.com/server/docs/network-configuration">点击跳转</a></p>
-<span id="more"></span>
-
-
-<h3 id="设置DHCP"><a href="#设置DHCP" class="headerlink" title="设置DHCP"></a>设置DHCP</h3><p>Ubuntu 的 systemd-networkd 默认使用 &#x2F;etc&#x2F;machine-id 来识别机器，当虚拟机克隆的时候，他们都有一样的 &#x2F;etc&#x2F;machine-id 和 DHCP server，因此返回的都是同一个 ip 了。</p>
-<p>手写配置文件，完整配置文件<code>00-installer-config.yaml</code>，内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens33:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 加上这一行，可以避免克隆的虚拟机获取到相同的IP地址</span></span><br><span class="line">      <span class="attr">dhcp-identifier:</span> <span class="string">mac</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>手写配置文件，完整配置文件<code>00-installer-config.yaml</code>，内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">ens18:</span></span><br><span class="line">      <span class="attr">link-local:</span> [ <span class="string">ipv4</span> ]  </span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">      <span class="attr">addresses:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="number">172.17</span><span class="number">.1</span><span class="number">.121</span><span class="string">/16</span></span><br><span class="line">      <span class="attr">gateway4:</span> <span class="number">172.17</span><span class="number">.0</span><span class="number">.2</span></span><br><span class="line">      <span class="attr">nameservers:</span></span><br><span class="line">          <span class="attr">addresses:</span> [<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>, <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>]</span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>ProxmoxVE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PVE系列03：PVE安装最小化 Rocky Linux</title>
-    <url>/posts/3b09c10b.html</url>
-    <content><![CDATA[<h2 id="RHEL-Rocky-Almalinux-Fedora-网络配置"><a href="#RHEL-Rocky-Almalinux-Fedora-网络配置" class="headerlink" title="RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置"></a>RHEL&#x2F;Rocky&#x2F;Almalinux&#x2F;Fedora 网络配置</h2><h3 id="设置静态IP地址"><a href="#设置静态IP地址" class="headerlink" title="设置静态IP地址"></a>设置静态IP地址</h3><p>基于<code>nmcli</code>命令，一条命令即可完成静态IP配置，重启系统后生效。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmcli connection modify \</span><br><span class="line">    <span class="string">&quot;<span class="subst">$(nmcli -t -f NAME c show --active | awk &#x27;! /^lo/ &#123; printf <span class="string">&quot;%s\n&quot;</span>, $0 &#125;&#x27;)</span>&quot;</span> \</span><br><span class="line">    connection.autoconnect <span class="built_in">yes</span> \</span><br><span class="line">    ipv4.method manual \</span><br><span class="line">    ipv4.addresses <span class="string">&quot;172.17.1.116/16&quot;</span> \</span><br><span class="line">    ipv4.gateway 172.17.0.2 \</span><br><span class="line">    ipv4.dns 8.8.8.8,8.8.4.4 \</span><br><span class="line">    ipv6.method disabled</span><br></pre></td></tr></table></figure>
-
-
-<span id="more"></span>
-
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>ProxmoxVE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PVE系列05：Fedora X11开发环境</title>
-    <url>/posts/b2111cfc.html</url>
-    <content><![CDATA[<h2 id="Windows系统"><a href="#Windows系统" class="headerlink" title="Windows系统"></a>Windows系统</h2><p>安装 vcxsrv, xshell, xftp。</p>
-<p>clion在Windows上可以远程linux开发，但是调试多个tcp程序不如命令行手动gdb来的实在。<br>调试redis源码也要用gdb，反正无论怎样都是要用gdb调试的，逃不开躲不过，还是尽早适应的好。</p>
-<p>不在xshell中用vim写C++，而是通过X11使用vscode写C++。不使用vscode调试C++，而是在命令行手动gdb进行调试。</p>
-<span id="more"></span>
-
-<p>vim的配置太恶心了，要什么功能都要用插件去实现，选插件然后配置太麻烦，关键的是没法保证实现想要的效果，浪费生命浪费时间。</p>
-<p>抛弃vim，拥抱vscode，从我做起！</p>
-<p>在windows上跑虚拟机才是正解，linux开发环境使用X11更加方便，只要CPU够强、内存够大，鱼与熊掌可以兼得。</p>
-<h2 id="Fedora34系统环境从零开始"><a href="#Fedora34系统环境从零开始" class="headerlink" title="Fedora34系统环境从零开始"></a>Fedora34系统环境从零开始</h2><h3 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h3><h4 id="1-使用-Fedora-Workstation-Live-x86-64-34-1-2-iso-安装系统"><a href="#1-使用-Fedora-Workstation-Live-x86-64-34-1-2-iso-安装系统" class="headerlink" title="1. 使用 Fedora-Workstation-Live-x86_64-34-1.2.iso 安装系统"></a>1. 使用 <code>Fedora-Workstation-Live-x86_64-34-1.2.iso</code> 安装系统</h4><p>开发环境使用 Workstation版， 不用Server版。配置默认为字符界面，桌面在需要时再进行切换。</p>
-<p>自定义LVM磁盘分区, 设置登录账号。</p>
-<h4 id="2-更新系统"><a href="#2-更新系统" class="headerlink" title="2. 更新系统"></a>2. 更新系统</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ dnf update</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-调整运行级别"><a href="#3-调整运行级别" class="headerlink" title="3. 调整运行级别"></a>3. 调整运行级别</h4><p>配置默认为字符界面，这样虚拟机需要的运行资源占用少。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ systemctl set-default runlevel3.target</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-C-编译工具"><a href="#4-C-编译工具" class="headerlink" title="4. C++编译工具"></a>4. C++编译工具</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dnf install -y boost boost-devel zlib-devel curl-devel \</span><br><span class="line">protobuf protobuf-devel cmake gcc gcc-c++ gdb make \</span><br><span class="line">tmux git vim openssh-server</span><br><span class="line"></span><br><span class="line">dnf install -y clang clang-devel clang-libs llvm llvm-doc \</span><br><span class="line">llvm-devel clang-tools-extra clang-analyzer</span><br></pre></td></tr></table></figure>
-
-<h4 id="5-VSCode"><a href="#5-VSCode" class="headerlink" title="5. VSCode"></a>5. VSCode</h4><p>5.1 按文档安装</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://code.visualstudio.com/docs/setup/linux</span><br></pre></td></tr></table></figure>
-
-<p>5.2 launch.json 示例</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// 使用 IntelliSense 了解相关属性。 </span></span><br><span class="line">    <span class="comment">// 悬停以查看现有属性的描述。</span></span><br><span class="line">    <span class="comment">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;asio_chat_server&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/build/bin/asio_chat_server&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;4000&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;fileDirname&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;为 gdb 启用整齐打印&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build-all&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>5.3 tasks.json 示例</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;label&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build-all&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;shell&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/bin/bash vscode.sh&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;group&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;isDefault&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>菜单 终端 -&gt; 运行生成任务(Ctrl+Shift+B), 会运行 tasks.json 中 <code>&quot;isDefault&quot;: true</code> 的task。</p>
-<h2 id="X11环境下的输入法"><a href="#X11环境下的输入法" class="headerlink" title="X11环境下的输入法"></a>X11环境下的输入法</h2><p>Fedora默认输入法是Ibus，当运行级别为3的时候，Ibus相关的服务不是开机启动的，需要你在xshell连上之后，手动启动ibus。</p>
-<h3 id="0-用到的包"><a href="#0-用到的包" class="headerlink" title="0. 用到的包"></a>0. 用到的包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[lukas@localhost yum.repos.d]$ rpm -qa | grep ^ibus</span><br><span class="line">ibus-libs-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-gtk2-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-gtk3-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-1.5.24-5.fc34.x86_64</span><br><span class="line">ibus-setup-1.5.24-5.fc34.noarch</span><br><span class="line">ibus-libzhuyin-1.10.0-2.fc34.x86_64</span><br><span class="line">ibus-m17n-1.4.9-1.fc34.x86_64</span><br><span class="line">ibus-libpinyin-1.12.0-3.fc34.x86_64</span><br><span class="line">ibus-anthy-python-1.5.12-7.fc34.noarch</span><br><span class="line">ibus-anthy-1.5.12-7.fc34.x86_64</span><br><span class="line">ibus-hangul-1.5.4-5.fc34.x86_64</span><br><span class="line">ibus-typing-booster-2.15.16-1.fc34.noarch</span><br><span class="line">[lukas@localhost yum.repos.d]$</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dnf install ibus-libs ibus-gtk2 ibus-gtk3 ibus ibus-setup ibus-libzhuyin ibus-m17n ibus-libpinyin ibus-anthy-python ibus-anthy ibus-hangul ibus-typing-booster xsel</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-复制粘贴"><a href="#1-复制粘贴" class="headerlink" title="1. 复制粘贴"></a>1. 复制粘贴</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo dnf -y install xsel</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-设置快捷键"><a href="#1-设置快捷键" class="headerlink" title="1. 设置快捷键"></a>1. 设置快捷键</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[lukas@fedora muduo]$ ibus-setup</span><br></pre></td></tr></table></figure>
-
-<p>在程序窗口中设置为 Ctrl + 空格</p>
-<h3 id="2-设置Ibus相关环境变量"><a href="#2-设置Ibus相关环境变量" class="headerlink" title="2. 设置Ibus相关环境变量"></a>2. 设置Ibus相关环境变量</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export XIM=ibus</span><br><span class="line">export GTK_IM_MODULE=ibus</span><br><span class="line">export QT_IM_MODULE=ibus</span><br><span class="line">export XIM_PROGRAM=&quot;ibus-daemon&quot;</span><br><span class="line">export XMODIFIERS=&quot;@im=ibus&quot;</span><br></pre></td></tr></table></figure>
-
-<p>在 ~&#x2F;.bashrc 里面添加</p>
-<h3 id="3-手动启动Ibus守护进程"><a href="#3-手动启动Ibus守护进程" class="headerlink" title="3. 手动启动Ibus守护进程"></a>3. 手动启动Ibus守护进程</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ibus-daemon -x -d</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="4-剪切板复制粘贴"><a href="#4-剪切板复制粘贴" class="headerlink" title="4. 剪切板复制粘贴"></a>4. 剪切板复制粘贴</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ForwardX11 yes</span><br></pre></td></tr></table></figure>
-
-<p>修改ssh配置，在 <code>/etc/ssh/ssh_config</code> 文件配置上述选项。<br>vmware中启用剪切板复制粘贴。</p>
-<h2 id="X11环境下可能出现的问题"><a href="#X11环境下可能出现的问题" class="headerlink" title="X11环境下可能出现的问题"></a>X11环境下可能出现的问题</h2><ol>
-<li>文本输入时，按了字母数字外的键盘按键，出现一直输入222222222222222222222222无法停止的现象</li>
-</ol>
-<p>这是一个偶尔出现的状况，不太清楚原因，没找到彻底的解决办法。</p>
-<p>解决办法： 关闭程序，重新开启程序</p>
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>ProxmoxVE</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PVE系列06：PVE下Linux虚拟机回收磁盘空间</title>
     <url>/posts/cc4b022f.html</url>
     <content><![CDATA[<h3 id="第一步：设置磁盘选项"><a href="#第一步：设置磁盘选项" class="headerlink" title="第一步：设置磁盘选项"></a>第一步：设置磁盘选项</h3><h3 id="第二步：虚拟机内执行回收命令"><a href="#第二步：虚拟机内执行回收命令" class="headerlink" title="第二步：虚拟机内执行回收命令"></a>第二步：虚拟机内执行回收命令</h3>]]></content>
@@ -225,6 +225,68 @@
       <tags>
         <tag>开发环境</tag>
         <tag>ProxmoxVE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware系列03：VMware虚拟机回收磁盘空间</title>
+    <url>/posts/6c0c2176.html</url>
+    <content><![CDATA[<h2 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h2><p>对于 Windows 虚拟机，可以选中虚拟机右键，管理选项，选择清理磁盘。这种方式回收空间速度很快。</p>
+<h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><h3 id="第一步：虚拟机安装vmtools"><a href="#第一步：虚拟机安装vmtools" class="headerlink" title="第一步：虚拟机安装vmtools"></a>第一步：虚拟机安装vmtools</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install open-vm-tools</span><br><span class="line"></span><br><span class="line">dnf install open-vm-tools</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二步：查看可压缩磁盘的挂载位置"><a href="#第二步：查看可压缩磁盘的挂载位置" class="headerlink" title="第二步：查看可压缩磁盘的挂载位置"></a>第二步：查看可压缩磁盘的挂载位置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk list</span><br><span class="line">/</span><br><span class="line">/storage</span><br><span class="line">root@pve:~#</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三步：压缩磁盘"><a href="#第三步：压缩磁盘" class="headerlink" title="第三步：压缩磁盘"></a>第三步：压缩磁盘</h3><ol>
+<li>压缩 &#x2F;</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk shrink /</span><br></pre></td></tr></table></figure>
+
+
+<p>这种方式很慢很慢，而且很消耗SSD的寿命。</p>
+<p>VMWare Workstation Pro 不支持trim，没有办法快速回收， 这是非常严重的缺陷，这会造成很大的空间浪费。</p>
+<p>PVE8虚拟机，从 <code>df -lh</code> 命令看，占用400G； 但是从Windows下看，实际占用了807G， 这意味着400G的空间浪费。<br>在使用 <code>disk shrink</code> 命令后， shrink命令超级慢，而且需要磁盘有巨大的未使用空间，才能成功shrink；<br>shrink后，从 807G 变成 704G， 也是没什么大用， 等了一个多小时，就这？？？？？  </p>
+<p>还不如，不做 shrink ，真真的浪费时间！</p>
+<p>PVE下qemu创建的Linux虚拟机，可以支持trim，设置ssd仿真和丢弃，可以使用fstrim命令回收磁盘空间。</p>
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>VMware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware系列02：Ubuntu桌面挂载Windows共享文件夹</title>
+    <url>/posts/b4f8c94e.html</url>
+    <content><![CDATA[<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install cifs-utils</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h2><p>不要设置每个人都可以读写文件夹，选择一个用户，只允许这个用户可以读写共享文件夹。</p>
+<span id="more"></span>
+
+
+<h2 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h2><h3 id="etc-fstab-文件配置"><a href="#etc-fstab-文件配置" class="headerlink" title="&#x2F;etc&#x2F;fstab 文件配置"></a>&#x2F;etc&#x2F;fstab 文件配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>uid&#x3D;lukas  这里是指定ubuntu用户，不指定的话，你会没有访问权限的。</li>
+<li>username&#x3D;lukas,password&#x3D;abc123   这里是windows用户名和密码， (设置windows共享的时候你指定的用户)</li>
+</ul>
+<h3 id="更安全的配置-etc-fstab"><a href="#更安全的配置-etc-fstab" class="headerlink" title="更安全的配置 &#x2F;etc&#x2F;fstab"></a>更安全的配置 &#x2F;etc&#x2F;fstab</h3><p>&#x2F;etc&#x2F;fstab 每个人都可以读取 - 其中的 Windows 密码也是如此。解决这个问题的方法是使用凭据文件。这是一个仅包含用户名和密码的文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lukas@ubuntu24:~$ <span class="built_in">cat</span> /home/lukas/.smbcredentials</span><br><span class="line">username=lukas</span><br><span class="line"></span><br><span class="line">password=abc123</span><br><span class="line">lukas@ubuntu24:~$ <span class="built_in">chmod</span> 600 ~/.smbcredentials</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://wiki.ubuntu.com/MountWindowsSharesPermanently">https://wiki.ubuntu.com/MountWindowsSharesPermanently</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>开发环境</category>
+      </categories>
+      <tags>
+        <tag>开发环境</tag>
+        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
@@ -343,6 +405,14 @@
       </tags>
   </entry>
   <entry>
+    <title>系列文章</title>
+    <url>/posts/2808.html</url>
+    <content><![CDATA[]]></content>
+      <tags>
+        <tag>系列文章</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>编译ASP.NET Core源码</title>
     <url>/posts/b063dee6.html</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
@@ -400,71 +470,50 @@
 ]]></content>
       <categories>
         <category>.NET开发</category>
+        <category>ASP.NET Core</category>
       </categories>
       <tags>
         <tag>ASP.NET Core</tag>
       </tags>
   </entry>
   <entry>
-    <title>VMware系列03：VMware虚拟机回收磁盘空间</title>
-    <url>/posts/6c0c2176.html</url>
-    <content><![CDATA[<h2 id="Windows虚拟机"><a href="#Windows虚拟机" class="headerlink" title="Windows虚拟机"></a>Windows虚拟机</h2><p>对于 Windows 虚拟机，可以选中虚拟机右键，管理选项，选择清理磁盘。这种方式回收空间速度很快。</p>
-<h2 id="Linux虚拟机"><a href="#Linux虚拟机" class="headerlink" title="Linux虚拟机"></a>Linux虚拟机</h2><h3 id="第一步：虚拟机安装vmtools"><a href="#第一步：虚拟机安装vmtools" class="headerlink" title="第一步：虚拟机安装vmtools"></a>第一步：虚拟机安装vmtools</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install open-vm-tools</span><br><span class="line"></span><br><span class="line">dnf install open-vm-tools</span><br></pre></td></tr></table></figure>
-
-<h3 id="第二步：查看可压缩磁盘的挂载位置"><a href="#第二步：查看可压缩磁盘的挂载位置" class="headerlink" title="第二步：查看可压缩磁盘的挂载位置"></a>第二步：查看可压缩磁盘的挂载位置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk list</span><br><span class="line">/</span><br><span class="line">/storage</span><br><span class="line">root@pve:~#</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三步：压缩磁盘"><a href="#第三步：压缩磁盘" class="headerlink" title="第三步：压缩磁盘"></a>第三步：压缩磁盘</h3><ol>
-<li>压缩 &#x2F;</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@pve:~# vmware-toolbox-cmd disk shrink /</span><br></pre></td></tr></table></figure>
+    <title>Linux命令 free</title>
+    <url>/posts/47956.html</url>
+    <content><![CDATA[<h1 id="free命令"><a href="#free命令" class="headerlink" title="free命令"></a>free命令</h1><p><code>free</code>命令可以显示<code>Linux</code>系统中空闲的、已用的物理内存及<code>swap</code>内存,及被内核使用的<code>buffer</code>。</p>
+<h2 id="命令语法说明"><a href="#命令语法说明" class="headerlink" title="命令语法说明"></a>命令语法说明</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 命令格式</span><br><span class="line">free [参数]</span><br><span class="line"># 可选参数</span><br><span class="line">-b 　以Byte为单位显示内存使用情况。 </span><br><span class="line">-k 　以KB为单位显示内存使用情况。 </span><br><span class="line">-m 　以MB为单位显示内存使用情况。</span><br><span class="line">-g   以GB为单位显示内存使用情况。</span><br><span class="line">-h   根据内存大小自动选择合适的单位显示</span><br><span class="line">-o 　不显示缓冲区调节列。 </span><br><span class="line">-s&lt;间隔秒数&gt; 　持续观察内存使用状况。</span><br><span class="line">-c&lt;显示次数&gt;   和-s配合使用</span><br><span class="line">-t 　显示内存总和列。 </span><br><span class="line">-V 　显示版本信息。</span><br></pre></td></tr></table></figure>
 
 
-<p>这种方式很慢很慢，而且很消耗SSD的寿命。</p>
-<p>VMWare Workstation Pro 不支持trim，没有办法快速回收， 这是非常严重的缺陷，这会造成很大的空间浪费。</p>
-<p>PVE8虚拟机，从 <code>df -lh</code> 命令看，占用400G； 但是从Windows下看，实际占用了807G， 这意味着400G的空间浪费。<br>在使用 <code>disk shrink</code> 命令后， shrink命令超级慢，而且需要磁盘有巨大的未使用空间，才能成功shrink；<br>shrink后，从 807G 变成 704G， 也是没什么大用， 等了一个多小时，就这？？？？？  </p>
-<p>还不如，不做 shrink ，真真的浪费时间！</p>
-<p>PVE下qemu创建的Linux虚拟机，可以支持trim，设置ssd仿真和丢弃，可以使用fstrim命令回收磁盘空间。</p>
-]]></content>
-      <categories>
-        <category>开发环境</category>
-      </categories>
-      <tags>
-        <tag>开发环境</tag>
-        <tag>VMware</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware系列02：Ubuntu桌面挂载Windows共享文件夹</title>
-    <url>/posts/b4f8c94e.html</url>
-    <content><![CDATA[<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install cifs-utils</span><br></pre></td></tr></table></figure>
+<h2 id="输出参数说明"><a href="#输出参数说明" class="headerlink" title="输出参数说明"></a>输出参数说明</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#显示所有的内存信息，每隔两秒显示一次，一共显示两次</span></span><br><span class="line">[root@slave03 ~]# free -h -s 2 -c 2</span><br><span class="line"></span><br><span class="line">             total       used       free     shared    buffers     cached  available</span><br><span class="line">Mem:          6.6G       5.5G       1.0G       1.1M       247M       3.5G         0B</span><br><span class="line">-/+ buffers/cache:       1.8G       4.8G </span><br><span class="line">Swap:         5.0G       106M       4.9G </span><br></pre></td></tr></table></figure>
 
 
-<h2 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h2><p>不要设置每个人都可以读写文件夹，选择一个用户，只允许这个用户可以读写共享文件夹。</p>
-<span id="more"></span>
-
-
-<h2 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h2><h3 id="etc-fstab-文件配置"><a href="#etc-fstab-文件配置" class="headerlink" title="&#x2F;etc&#x2F;fstab 文件配置"></a>&#x2F;etc&#x2F;fstab 文件配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   uid=lukas,username=lukas,password=abc123,iocharset=utf8   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>先对上面红框中的数据做下说明。Men表示具体的物理内存，free从多个维度统计了物理内存的情况，每个维度的含义如下：</p>
 <ul>
-<li>uid&#x3D;lukas  这里是指定ubuntu用户，不指定的话，你会没有访问权限的。</li>
-<li>username&#x3D;lukas,password&#x3D;abc123   这里是windows用户名和密码， (设置windows共享的时候你指定的用户)</li>
+<li>total：总计物理内存的大小。</li>
+<li>used：已使用的物理内存的大小。</li>
+<li>free：可用物理内存有多少。</li>
+<li>shared：多个进程共享的内存总额。</li>
+<li>buffers：写入磁盘内存缓冲区的大小（经常进行磁盘IO的效率比较低，所以先将要写入磁盘的文件进行一定数量的缓冲，等缓冲数据到达一定大小是一次性写进磁盘，提升效率）</li>
+<li>cached：从磁盘中读取内容的缓存大小（原理差不多）。</li>
+<li>available：下面会介绍。</li>
+<li>-buffers&#x2F;cache：表示被程序实实在在吃掉的内存，比如上图中used内存是5.5G，但是真正被应用程序使用的内存才1.8G，其他被占据的内存主要用来cache数据了，也就是上面的3.5G。</li>
+<li>+buffers&#x2F;cache：表示应用程序还可以可以申请的内存总数。</li>
 </ul>
-<h3 id="更安全的配置-etc-fstab"><a href="#更安全的配置-etc-fstab" class="headerlink" title="更安全的配置 &#x2F;etc&#x2F;fstab"></a>更安全的配置 &#x2F;etc&#x2F;fstab</h3><p>&#x2F;etc&#x2F;fstab 每个人都可以读取 - 其中的 Windows 密码也是如此。解决这个问题的方法是使用凭据文件。这是一个仅包含用户名和密码的文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lukas@ubuntu24:~$ <span class="built_in">cat</span> /home/lukas/.smbcredentials</span><br><span class="line">username=lukas</span><br><span class="line"></span><br><span class="line">password=abc123</span><br><span class="line">lukas@ubuntu24:~$ <span class="built_in">chmod</span> 600 ~/.smbcredentials</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &#x27;blkid&#x27; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line">/dev/mapper/vgubuntu-root /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda2 during installation</span><br><span class="line">UUID=FB79-6FAD  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line">/dev/mapper/vgubuntu-swap_1 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">//172.17.0.1/diskd  /mnt/d  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line">//172.17.0.1/diske  /mnt/e  cifs   credentials=/home/lukas/.smbcredentials   0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
-<li><a href="https://wiki.ubuntu.com/MountWindowsSharesPermanently">https://wiki.ubuntu.com/MountWindowsSharesPermanently</a></li>
-</ul>
+<h3 id="free参数和available参数的区别"><a href="#free参数和available参数的区别" class="headerlink" title="free参数和available参数的区别"></a>free参数和available参数的区别</h3><p>在 free 命令的输出中，有一个 free 列，同时还有一个 available 列。这二者到底有何区别？</p>
+<p>free 是真正尚未被使用的物理内存数量。至于 available 就比较有意思了，它是从应用程序的角度看到的可用内存数量。</p>
+<p>Linux  内核为了提升磁盘操作的性能，会消耗一部分内存去缓存磁盘数据，就是我们介绍的 buffer 和 cache。所以对于内核来说，buffer 和  cache 都属于已经被使用的内存。</p>
+<p>当应用程序需要内存时，如果没有足够的 free 内存可以用，内核就会从 buffer 和 cache  中回收内存来满足应用程序的请求。从应用程序的角度来说，<strong>available  &#x3D; free + buffer + cache</strong>。请注意，这只是一个很理想的计算方式，实际中的数据往往有较大的误差。</p>
+<p>但是上面的available参数为什么输出是0呢？请看官方文档的说明</p>
+<blockquote>
+<p>The -a switch shows the available memory (if supported by the running kernel and enabled with sysctl -w vm.meminfo_legacy_layout&#x3D;0 ; shows  zero when unsupported or disabled). The produced output is wider than 80 characters.</p>
+</blockquote>
+<p>这个参数的输出需要操作系统内核支持，如果内核不支持的话就固定输出一个0。</p>
 ]]></content>
       <categories>
-        <category>开发环境</category>
+        <category>Linux命令</category>
+        <category>内存管理</category>
       </categories>
       <tags>
-        <tag>开发环境</tag>
-        <tag>VMware</tag>
+        <tag>定时任务</tag>
       </tags>
   </entry>
   <entry>
@@ -503,9 +552,190 @@
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># System.Private.CoreLib 是项目文件夹的名称， 换成你要查看的项目。</span></span><br><span class="line"></span><br><span class="line">.\build.cmd <span class="literal">-vs</span> System.Private.CoreLib</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>.NET开发</category>
+        <category>.NET Runtime</category>
       </categories>
       <tags>
         <tag>.NET Runtime</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux定时任务 corn表达式</title>
+    <url>/posts/25166.html</url>
+    <content><![CDATA[<h2 id="cron表达式产生的背景"><a href="#cron表达式产生的背景" class="headerlink" title="cron表达式产生的背景"></a>cron表达式产生的背景</h2><p>cron表达式最初是由Unix操作系统中的cron守护进程所使用的一种语法规则，用于设置定时任务。cron守护进程是Unix系统中的一个后台进程，用于周期性地执行指定的命令或脚本。它可以根据用户的需求，按照指定的时间间隔或时间点来执行任务，通常用于定时备份、清理日志、发送邮件等操作。</p>
+<p>为了方便用户设置定时任务，cron守护进程引入了一种简单的语法规则，即cron表达式。cron表达式由6个字段组成，分别表示秒、分、小时、日期、月份和星期几。通过这种语法规则，用户可以非常灵活地设置定时任务，满足不同的需求。</p>
+<p>随着Unix操作系统的普及和互联网的发展，cron表达式逐渐成为了一种通用的定时任务设置语法，被广泛应用于各种计算机系统和应用程序中。目前，cron表达式已经成为了计算机科学中的一个基本概念，被包括Java、Python、Ruby等编程语言在内的许多软件框架和库所支持和应用。</p>
+<h2 id="cron表达式的语法格式"><a href="#cron表达式的语法格式" class="headerlink" title="cron表达式的语法格式"></a>cron表达式的语法格式</h2><p>CRON 表达式是一个字符串，以 5 或 6 个空格隔开，分为 6 或 7 个域，每一个域代表一个含义。 每个域都可以设置一个数字、一组数字（用逗号分隔）、一段数字范围（用短横线分隔）、通配符（表示任意值）或者特定的字符（如星期几的英文缩写）。</p>
+<p>CRON 有如下两种语法格式：</p>
+<ul>
+<li><p>秒 分钟 小时 日期 月份 星期 年</p>
+</li>
+<li><p>秒 分钟 小时 日期 月份 星期</p>
+</li>
+</ul>
+<h3 id="每个域允许的值"><a href="#每个域允许的值" class="headerlink" title="每个域允许的值"></a>每个域允许的值</h3><table>
+<thead>
+<tr>
+<th>域</th>
+<th>允许的数值</th>
+<th>允许的特殊字符</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>秒</td>
+<td>0~59</td>
+<td>- * &#x2F;</td>
+<td>无</td>
+</tr>
+<tr>
+<td>分钟</td>
+<td>0~59</td>
+<td>- * &#x2F;</td>
+<td>无</td>
+</tr>
+<tr>
+<td>小时</td>
+<td>0~23</td>
+<td>- * &#x2F;</td>
+<td>无</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>1~31</td>
+<td>- * ? &#x2F; L W C</td>
+<td>无</td>
+</tr>
+<tr>
+<td>月份</td>
+<td>1~12</td>
+<td>JAN-DEC - * &#x2F;</td>
+<td>无</td>
+</tr>
+<tr>
+<td>星期</td>
+<td>1~7</td>
+<td>SUN-SAT - * ? &#x2F; L C #</td>
+<td>1 表示星期天，2 表示星期一，依次类推</td>
+</tr>
+<tr>
+<td>年（可选）</td>
+<td>留空，1970~2099</td>
+<td>, - * &#x2F;</td>
+<td>自动生成，工具不显示该值</td>
+</tr>
+</tbody></table>
+<h3 id="特殊字符的含义"><a href="#特殊字符的含义" class="headerlink" title="特殊字符的含义"></a>特殊字符的含义</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>表示匹配域的任意值</td>
+<td>在分这个域使用 <code>*</code>，即表示每分钟都会触发事件。</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>表示匹配域的任意值，但只能用在日期和星期两个域，因为这两个域会相互影响。</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>表示起止范围</td>
+<td>在分这个域使用 5-20，表示从 5 分到 20 分钟每分钟触发一次。</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>表示起始时间开始触发，然后每隔固定时间触发一次</td>
+<td>在分这个域使用 5&#x2F;20，表示在第 5 分钟触发一次，之后每 20 分钟触发一次，即 5、 25、45 等分别触发一次。</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>表示列出枚举值</td>
+<td>在分这个域使用 5,20，则意味着在 5 和 20 分每分钟触发一次。</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>表示匹配域的任意值，但只能用在日期和星期两个域，因为这两个域会相互影响。</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>W</code></td>
+<td>表示有效工作日（周一到周五），只能出现在日这个域，系统将在离指定日期最近的有效工作日触发事件。</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>LW</code></td>
+<td>这两个字符可以连用，表示在某个月最后一个工作日，即最后一个星期五。</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td>表示每个月第几个星期几，只能出现在星期这个域</td>
+<td>在星期这个域使用 4#2，表示某月的第二个星期三，4 表示星期三，2 表示第二个。</td>
+</tr>
+</tbody></table>
+<h3 id="cron表达式示例"><a href="#cron表达式示例" class="headerlink" title="cron表达式示例"></a>cron表达式示例</h3><ul>
+<li>*&#x2F;5 * * * * ?：每隔 5 秒执行一次</li>
+<li>0 *&#x2F;1 * * * ?：每隔 1 分钟执行一次</li>
+<li>0 0 2 1 * ?：每月 1 日的凌晨 2 点执行一次</li>
+<li>0 15 10 ? * MON-FRI：周一到周五每天上午 10：15 执行作业</li>
+<li>0 15 10 ? 6L 2002-2006：2002 年至 2006 年的每个月的最后一个星期五上午 10:15 执行作业</li>
+<li>0 0 23 * * ?：每天 23 点执行一次</li>
+<li>0 0 1 * * ?：每天凌晨 1 点执行一次</li>
+<li>0 0 1 1 * ?：每月 1 日凌晨 1 点执行一次</li>
+<li>0 0 23 L * ?：每月最后一天 23 点执行一次</li>
+<li>0 0 1 ? * L：每周星期天凌晨 1 点执行一次</li>
+<li>0 26,29,33 * * * ?：在 26 分、29 分、33 分执行一次</li>
+<li>0 0 0,13,18,21 * * ?：每天的 0 点、13 点、18 点、21 点都执行一次</li>
+<li>0 0 10,14,16 * * ?：每天上午 10 点，下午 2 点，4 点执行一次</li>
+<li>0 0&#x2F;30 9-17 * * ?：朝九晚五工作时间内每半小时执行一次</li>
+<li>0 0 12 ? * WED：每个星期三中午 12 点执行一次</li>
+<li>0 0 12 * * ?：每天中午 12 点触发</li>
+<li>0 15 10 ? * *：每天上午 10:15 触发</li>
+<li>0 15 10 * * ?：每天上午 10:15 触发</li>
+<li>0 15 10 * * ? *：每天上午 10:15 触发</li>
+<li>0 15 10 * * ? 2005：2005 年的每天上午 10:15 触发</li>
+<li>0 * 14 * * ?：每天下午 2 点到 2:59 期间的每 1 分钟触发</li>
+<li>0 0&#x2F;5 14 * * ?：每天下午 2 点到 2:55 期间的每 5 分钟触发</li>
+<li>0 0&#x2F;5 14,18 * * ?：每天下午 2 点到 2:55 期间和下午 6 点到 6:55 期间的每 5 分钟触发</li>
+<li>0 0-5 14 * * ?：每天下午 2 点到 2:05 期间的每 1 分钟触发</li>
+<li>0 10,44 14 ? 3 WED：每年三月的星期三的下午 2:10 和 2:44 触发</li>
+<li>0 15 10 ? * MON-FRI：周一至周五的上午 10:15 触发</li>
+<li>0 15 10 15 * ?：每月 15 日上午 10:15 触发</li>
+<li>0 15 10 L * ?：每月最后一日的上午 10:15 触发</li>
+<li>0 15 10 ? * 6L：每月的最后一个星期五上午 10:15 触发</li>
+<li>0 15 10 ? * 6L 2002-2005：2002 年至 2005 年的每月的最后一个星期五上午 10:15 触发</li>
+<li>0 15 10 ? * 6#3：每月的第三个星期五上午 10:15 触发</li>
+</ul>
+<h2 id="cron表达式在线计算工具"><a href="#cron表达式在线计算工具" class="headerlink" title="cron表达式在线计算工具"></a>cron表达式在线计算工具</h2><p>写完cron表达式之后，最好使用在线工具，生成未来10次执行时间，人工进行对比，确保写出来的表达式与预期行为一致。</p>
+<ul>
+<li><a href="https://www.bejson.com/othertools/cronvalidate/">Cron表达式校验工具</a></li>
+<li><a href="http://www.yunjson.com/quartzcron/">Quartz Cron定时器表达式生成工具</a></li>
+<li><a href="https://cron.qqe2.com/">在线Cron表达式生成器</a></li>
+</ul>
+<h2 id="Linux下的crontab命令"><a href="#Linux下的crontab命令" class="headerlink" title="Linux下的crontab命令"></a>Linux下的crontab命令</h2><p>请注意，crontab命令使用的 crontab表达式，跟 cron表达式 是有区别的。 </p>
+<ul>
+<li>cron表达式可以有6个域、7个域。</li>
+<li>crontab表达式只有5个域，它不包含秒、不包含年。</li>
+<li>crontab表达式对特殊字符的支持也是有限的。</li>
+</ul>
+<h3 id="crontab表达式"><a href="#crontab表达式" class="headerlink" title="crontab表达式"></a>crontab表达式</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">crontab表达式说明：</span><br><span class="line">*    *    *    *    *    [user]   [command]</span><br><span class="line">-    -    -    -    - </span><br><span class="line">|    |    |    |    |</span><br><span class="line">|    |    |    |    |</span><br><span class="line">|    |    |    |    +----- 星期 (0 - 7) (Sunday=0 or 7)</span><br><span class="line">|    |    |    +---------- 月 (1 - 12)</span><br><span class="line">|    |    +--------------- 日 (1 - 31)</span><br><span class="line">|    +-------------------- 时 (0 - 23)</span><br><span class="line">+------------------------- 分 (0 - 59)</span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab表达式在线计算工具"><a href="#crontab表达式在线计算工具" class="headerlink" title="crontab表达式在线计算工具"></a>crontab表达式在线计算工具</h2><p>写完crontab表达式之后，最好使用在线工具，生成未来10次执行时间，人工进行对比，确保写出来的表达式与预期行为一致。</p>
+<ul>
+<li><a href="https://www.iamwawa.cn/crontab.html">crontab执行时间计算</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux命令</category>
+        <category>定时任务</category>
+      </categories>
+      <tags>
+        <tag>定时任务</tag>
       </tags>
   </entry>
 </search>
